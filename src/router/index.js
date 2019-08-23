@@ -21,11 +21,17 @@ const MyShoppingCart = resolve => require(['@/components/home/MyShoppingCart'], 
 const Merchant = resolve => require(['@/components/Merchant'], resolve);
 
 const GoodsDetailChangeInfo = resolve => require(['@/components/GoodsDetailChangeInfo'], resolve);
+const firstPhone = resolve => require(['@/components/phoneWeb/firstPhone'], resolve);
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/firstPhone', // 首页
+      name: 'firstPhone',
+      component: firstPhone
+    },
     {
       path: '/', // 首页
       name: 'goodsList',

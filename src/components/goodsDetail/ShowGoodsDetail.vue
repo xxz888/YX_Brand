@@ -1,33 +1,12 @@
 <template>
   <div>
     <div class="item-intro-show">
-      <!--<div class="item-intro-recommend">-->
-        <!--<div class="item-recommend-title">-->
-          <!--<p>店铺热销</p>-->
-        <!--</div>-->
-        <!--<div class="item-intro-recommend-column">-->
-          <!--<div class="item-recommend-column" v-for="(item, index) in goodsInfo.hot" :key="index">-->
-            <!--<div class="item-recommend-img">-->
-              <!--<img :src="item.img" alt="">-->
-            <!--</div>-->
-            <!--<div class="item-recommend-intro">-->
-              <!--<span>-->
-                <!--<span class="item-recommend-top-num">{{index + 1}}</span> 热销{{item.sale}}件</span>-->
-              <!--<span class="item-recommend-price">￥{{item.price.toFixed(2)}}</span>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
       <div class="item-intro-detail" ref="itemIntroDetail">
         <div class="item-intro-nav item-tabs">
           <Tabs>
             <TabPane label="商品介绍">
-              <!--<div class="remarks-title">-->
-                <!--<span>商品介绍</span>-->
-              <!--</div>-->
               <div class="item-intro-img" ref="itemIntroGoods">
-
-                <Card v-for="(item,index) in detailArray" style="width:32%;margin: 5px">
+                <Card v-for="(item,index) in detailArray"  :key="index" style="width:32%;margin: 5px">
                   <Tooltip placement="top">
                     <div slot="content">
                       <Row>
@@ -37,9 +16,6 @@
                         <p>{{(item.argument.split(";")[1])}}</p>
                         <p>{{(item.argument.split(";")[2])}}</p>
                         <p>{{(item.argument.split(";")[3])}}</p>
-
-
-
 
                         <p>盒装规格:{{item.box_size}}</p>
 
@@ -68,7 +44,6 @@
                     </div>
 
                   </Tooltip>
-
 
                 </Card>
                 <!--<img :src="item" alt="" v-for="(item,index) in goodsInfo.goodsDetail" :key="index">-->
@@ -139,66 +114,66 @@
 </template>
 
 <script>
-  import ShowProductWarranty from '@/components/goodsDetail/ShowProductWarranty';
-  import store from '@/vuex/store';
-  import { mapState } from 'vuex';
-  export default {
-    name: 'ShowGoodsDetail',
-    props:['goodItem'],
-    data () {
-      return {
-        tagsColor: [ 'blue', 'green', 'red', 'yellow' ],
-        detailArray:[]
-      };
-    },
-    computed: {
-      ...mapState(['goodsInfo'])
-    },
-    created(){
-      this.getData();
-    },
-    methods: {
-      getData(){
-        if (!this.goodItem.goodItem.id){
-          return;
-        }
-        var self = this;
-        var dic = {'cigar_brand_id':this.goodItem.goodItem.id};
-        this.$axios.post('/api/cigar/admin_cigar_brand_details/',dic,{headers:{
-            "Authorization":"JWT " + localStorage.getItem('token')
-          }}).then(res=>{
-          self.detailArray = res.data.data;
-        });
-      },
-      type_formatter(value){
-        return value.replace(",",":");
-      },
-      changeHeight () {
-        let heightCss = window.getComputedStyle(this.$refs.itemIntroGoods).height;
-        console.log(heightCss);
-        heightCss = parseInt(heightCss.substr(0, heightCss.length - 2)) + 89;
-        this.$refs.itemIntroDetail.style.height = heightCss + 'px';
+import ShowProductWarranty from '@/components/goodsDetail/ShowProductWarranty';
+import store from '@/vuex/store';
+import { mapState } from 'vuex';
+export default {
+  name: 'ShowGoodsDetail',
+  props: ['goodItem'],
+  data () {
+    return {
+      tagsColor: [ 'blue', 'green', 'red', 'yellow' ],
+      detailArray: []
+    };
+  },
+  computed: {
+    ...mapState(['goodsInfo'])
+  },
+  created () {
+    this.getData();
+  },
+  methods: {
+    getData () {
+      if (!this.goodItem.goodItem.id) {
+        return;
       }
-    },
-    updated () {
-      this.$nextTick(() => {
-        setTimeout(this.changeHeight, 100);
-        setTimeout(this.changeHeight, 1000);
-        setTimeout(this.changeHeight, 3000);
-        setTimeout(this.changeHeight, 5000);
-        setTimeout(this.changeHeight, 10000);
-        setTimeout(this.changeHeight, 15000);
-        setTimeout(this.changeHeight, 20000);
-        setTimeout(this.changeHeight, 25000);
-        setTimeout(this.changeHeight, 30000);
-        setTimeout(this.changeHeight, 50000);
+      var self = this;
+      var dic = {'cigar_brand_id': this.goodItem.goodItem.id};
+      this.$axios.post('/api/cigar/admin_cigar_brand_details/', dic, {headers: {
+        'Authorization': 'JWT ' + localStorage.getItem('token')
+      }}).then(res => {
+        self.detailArray = res.data.data;
       });
     },
-    components: {
-      ShowProductWarranty
+    type_formatter (value) {
+      return value.replace(',', ':');
     },
-    store
-  };
+    changeHeight () {
+      let heightCss = window.getComputedStyle(this.$refs.itemIntroGoods).height;
+      console.log(heightCss);
+      heightCss = parseInt(heightCss.substr(0, heightCss.length - 2)) + 89;
+      this.$refs.itemIntroDetail.style.height = heightCss + 'px';
+    }
+  },
+  updated () {
+    this.$nextTick(() => {
+      setTimeout(this.changeHeight, 100);
+      setTimeout(this.changeHeight, 1000);
+      setTimeout(this.changeHeight, 3000);
+      setTimeout(this.changeHeight, 5000);
+      setTimeout(this.changeHeight, 10000);
+      setTimeout(this.changeHeight, 15000);
+      setTimeout(this.changeHeight, 20000);
+      setTimeout(this.changeHeight, 25000);
+      setTimeout(this.changeHeight, 30000);
+      setTimeout(this.changeHeight, 50000);
+    });
+  },
+  components: {
+    ShowProductWarranty
+  },
+  store
+};
 </script>
 
 <style scoped>
